@@ -1,0 +1,38 @@
+
+
+//// eureka-service
+cd C:/Users/asus/Desktop/energy-microservice/eureka-service
+
+docker build -f Dockerfile -t eureka-service .
+
+docker images
+docker run -p 8302:8302 eureka-service
+docker ps
+
+//// db-service
+cd C:/Users/asus/Desktop/energy-microservice/db-service
+docker run --name standalone -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=energy -e MYSQL_USER=root -e MYSQL_PASSWORD= -d mysql:5.6
+docker build . -t db-service
+docker run -p 8085:8085 --name db-service --link standalone:mysql -d db-service
+
+///// hes-service
+
+cd C:/Users/asus/Desktop/energy-microservice/hes-service
+docker build -f Dockerfile -t hes-service .
+docker run -p 8301:8301 hes-service
+
+/////account-service
+
+cd C:/Users/asus/Desktop/energy-microservice/account-service
+docker build -f Dockerfile -t account-service .
+docker run -p 8086:8086 account-service
+
+
+
+docker stop $(docker ps -a -q)
+ docker rm $(docker ps -a -q)
+ docker image rm $(docker images -q)
+ docker pull mysql
+ docker pull openjdk
+ 
+ 
